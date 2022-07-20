@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import React, { Suspense } from "react";
 import AppRoutes from "./AppRoutes";
 import { ShoesProvider } from "./context/shoesContext";
@@ -9,6 +9,7 @@ function App() {
     <div className="App">
       <Suspense fallback={<div>...loading</div>}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <ShoesProvider>
             <AppRoutes />
           </ShoesProvider>

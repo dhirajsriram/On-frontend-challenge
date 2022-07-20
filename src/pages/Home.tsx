@@ -1,6 +1,6 @@
+import React from "react";
 import { Grid, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import React from "react";
 import Athlete from "../assets/Background Image Start Screen.png";
 import Button from "../components/Button";
 
@@ -13,6 +13,21 @@ const Home = () => {
         minHeight: "100vh",
         padding: "16px",
         backgroundColor: grey[50],
+        backgroundImage: `url('${Athlete}')`,
+        backgroundSize: "75vh",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "bottom",
+        paddingTop: "25%",
+        ":before": {
+          content: "''",
+          backgroundImage:
+            "linear-gradient(to top, rgba(239,239,239,255), rgba(239,239,239,0))",
+          position: "absolute",
+          height: "25%",
+          right: "0",
+          bottom: "0",
+          left: "0",
+        },
       }}
     >
       <Grid item xs={12} sx={{ justifyContent: "center" }}>
@@ -30,12 +45,11 @@ const Home = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography sx={{ fontSize: "12px", color: grey[500], fontWeight: 'bold' }}>
+            <Typography
+              sx={{ fontSize: "12px", color: grey[500], fontWeight: "bold" }}
+            >
               30 Days risk free
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <img src={Athlete} alt="athlete" style={{width: "100%", height: "100%"}} />
           </Grid>
         </Grid>
       </Grid>
