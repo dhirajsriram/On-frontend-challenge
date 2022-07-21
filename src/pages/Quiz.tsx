@@ -65,10 +65,10 @@ const Quiz = () => {
         sx={{
           flex: 1,
           flexDirection: "column",
-          justifyContent: "space-around",
+          justifyContent: "space-between",
         }}
       >
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{ marginTop: "50%" }}>
           <Typography
             sx={{
               color: "white",
@@ -98,7 +98,12 @@ const Quiz = () => {
         <Grid item xs={12}>
           <Button
             variant="secondary"
-            sx={{ display: "block", margin: "auto" }}
+            sx={{
+              display: "block",
+              margin: "auto",
+              marginTop: "32px",
+              marginBottom: "32px",
+            }}
             onClick={() => dispatchQuiz({ type: "resetResponse" })}
             label={"Reset Response"}
           />

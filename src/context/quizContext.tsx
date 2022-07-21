@@ -2,6 +2,8 @@ import * as React from "react";
 import data from "../data/data.json";
 import { Question, RatingIncrease, Shoe } from "../types/types";
 
+let dataObject = Object.assign({}, data);
+
 export type Action =
   | { type: "updateResponse"; payload: { value: string } }
   | { type: "resetResponse" };
@@ -16,13 +18,6 @@ type QuizProviderProps = { children: React.ReactNode };
 const QuizContext = React.createContext<
   { state: State; dispatch: Dispatch } | undefined
 >(undefined);
-
-const initialState = {
-  questions: data.questions,
-  step: 0,
-  nextQuestion: data.questions[0],
-  shoes: data.shoes,
-};
 
 export const QuizReducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -43,6 +38,7 @@ export const QuizReducer = (state: State, action: Action) => {
         shoes.sort((a, b) => {
           return b.rating - a.rating;
         });
+        console.log(dataObject.shoes);
       }
       if (typeof nextQuestionId === "number") {
         let nextQuestion = state.questions[nextQuestionId];
@@ -51,7 +47,13 @@ export const QuizReducer = (state: State, action: Action) => {
       return { ...state, nextQuestion: null, step: state.step + 1, shoes };
     }
     case "resetResponse": {
-      return { ...initialState };
+      state.shoes.forEach((shoe) => shoe.rating = 0);
+      return {
+        ...state,
+        questions: dataObject.questions,
+        step: 0,
+        nextQuestion: dataObject.questions[0],
+      };
     }
     default: {
       throw new Error(`Unhandled action type`);
@@ -59,7 +61,12 @@ export const QuizReducer = (state: State, action: Action) => {
   }
 };
 const QuizProvider = ({ children }: QuizProviderProps) => {
-  const [state, dispatch] = React.useReducer(QuizReducer, { ...initialState });
+  const [state, dispatch] = React.useReducer(QuizReducer, {
+    questions: dataObject.questions,
+    step: 0,
+    nextQuestion: dataObject.questions[0],
+    shoes: dataObject.shoes,
+  });
   const value = { state, dispatch };
   return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;
 };
