@@ -2,7 +2,9 @@ import * as React from "react";
 import data from "../data/data.json";
 import { Question, RatingIncrease, Shoe } from "../types/types";
 
-export type Action = { type: "updateResponse"; payload: { value: string } };
+export type Action =
+  | { type: "updateResponse"; payload: { value: string } }
+  | { type: "resetResponse" };
 type Dispatch = (action: Action) => void;
 export type State = {
   questions: Question[];
@@ -15,6 +17,13 @@ const QuizContext = React.createContext<
   { state: State; dispatch: Dispatch } | undefined
 >(undefined);
 
+const initialState = {
+  questions: data.questions,
+  step: 0,
+  nextQuestion: data.questions[0],
+  shoes: data.shoes,
+};
+
 export const QuizReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "updateResponse": {
@@ -26,16 +35,14 @@ export const QuizReducer = (state: State, action: Action) => {
         state.nextQuestion?.answers.find(
           (a) => a.copy === answer
         )?.ratingIncrease;
-      let shoes = state.shoes;
+      let shoes = [...state.shoes];
       if (ratingIncrease) {
         for (let shoe of shoes) {
-          console.log(shoe.rating + ratingIncrease[shoe.id]);
           shoe.rating = shoe.rating + ratingIncrease[shoe.id];
         }
         shoes.sort((a, b) => {
           return b.rating - a.rating;
         });
-        console.log(shoes);
       }
       if (typeof nextQuestionId === "number") {
         let nextQuestion = state.questions[nextQuestionId];
@@ -43,19 +50,16 @@ export const QuizReducer = (state: State, action: Action) => {
       }
       return { ...state, nextQuestion: null, step: state.step + 1, shoes };
     }
+    case "resetResponse": {
+      return { ...initialState };
+    }
     default: {
       throw new Error(`Unhandled action type`);
     }
   }
 };
-
 const QuizProvider = ({ children }: QuizProviderProps) => {
-  const [state, dispatch] = React.useReducer(QuizReducer, {
-    questions: data.questions,
-    step: 0,
-    nextQuestion: data.questions[0],
-    shoes: data.shoes,
-  });
+  const [state, dispatch] = React.useReducer(QuizReducer, { ...initialState });
   const value = { state, dispatch };
   return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;
 };

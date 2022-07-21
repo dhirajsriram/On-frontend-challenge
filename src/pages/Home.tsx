@@ -22,7 +22,6 @@ const Home = () => {
         backgroundSize: "75vh",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "bottom",
-        paddingTop: "25%",
         ":before": {
           content: "''",
           backgroundImage:

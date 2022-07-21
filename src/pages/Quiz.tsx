@@ -62,32 +62,30 @@ const Quiz = () => {
       </Grid>
       <Grid
         container
-        sx={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+        sx={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "space-around",
+        }}
       >
-        <Grid
-          item
-          xs={12}
-          sx={{
-            color: "white",
-            textAlign: "center",
-            fontSize: "22px",
-          }}
-        >
-          {nextQuestion?.copy}
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{
-            color: "white",
-            textAlign: "center",
-            fontSize: "20px",
-            marginTop: "100px",
-          }}
-        >
-          <Grid container>
+        <Grid item xs={12}>
+          <Typography
+            sx={{
+              color: "white",
+              textAlign: "center",
+              fontSize: "22px",
+            }}
+          >
+            {nextQuestion?.copy}
+          </Typography>
+          <Grid container sx={{ justifyContent: "center", marginTop: "100px" }}>
             {nextQuestion?.answers.map((answer) => (
-              <Grid item xs={12 / nextQuestion.answers.length}>
+              <Grid
+                item
+                key={answer.copy}
+                xs={12 / nextQuestion.answers.length}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <Button
                   variant="secondary"
                   onClick={() => handleOptionClick(answer.copy)}
@@ -96,6 +94,14 @@ const Quiz = () => {
               </Grid>
             ))}
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="secondary"
+            sx={{ display: "block", margin: "auto" }}
+            onClick={() => dispatchQuiz({ type: "resetResponse" })}
+            label={"Reset Response"}
+          />
         </Grid>
       </Grid>
     </Container>
