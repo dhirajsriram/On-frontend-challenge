@@ -3,7 +3,7 @@ import { grey } from "@mui/material/colors";
 import React from "react";
 
 type ButtonProps = {
-  variant: "primary" | "seccondary";
+  variant: "primary" | "secondary";
   onClick: () => void;
   label: string;
 };
@@ -14,10 +14,10 @@ const Button = ({ variant, onClick, label }: ButtonProps) => {
       sx={{
         padding: "8px 30px",
         backgroundColor: variant === "primary" ? grey[900] : "transparent",
-        color: variant === "primary" ? 'white' : grey[900],
-        border: `1px solid ${variant === "primary" ? 'transparent' : grey[900]}`,
-        textTransform: 'capitalize',
-        borderRadius: '0px'
+        color: variant === "primary" ? "white" : "white",
+        border: `1px solid ${variant === "primary" ? "transparent" : "white"}`,
+        textTransform: "capitalize",
+        borderRadius: "0px",
       }}
       onClick={onClick}
     >

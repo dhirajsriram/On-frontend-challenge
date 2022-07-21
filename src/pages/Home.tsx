@@ -3,8 +3,13 @@ import { Grid, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import Athlete from "../assets/Background Image Start Screen.png";
 import Button from "../components/Button";
+import { useNavigate } from "react-router";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const navigateToQuiz = () => {
+    navigate("/quiz");
+  };
   return (
     <Grid
       container
@@ -40,7 +45,7 @@ const Home = () => {
           <Grid item xs={12}>
             <Button
               variant="primary"
-              onClick={() => {}}
+              onClick={navigateToQuiz}
               label={"Try on Trial"}
             />
           </Grid>
