@@ -1,13 +1,14 @@
 import * as React from "react";
 import data from "../data/data.json";
-import { Question } from "../types/types";
+import { Question, RatingIncrease, Shoe } from "../types/types";
 
-export type Action = { type: "updateNextQuestion"; payload: { value: string } };
+export type Action = { type: "updateResponse"; payload: { value: string } };
 type Dispatch = (action: Action) => void;
 export type State = {
   questions: Question[];
   step: number;
   nextQuestion: Question | null;
+  shoes: Shoe[];
 };
 type QuizProviderProps = { children: React.ReactNode };
 const QuizContext = React.createContext<
@@ -16,16 +17,31 @@ const QuizContext = React.createContext<
 
 export const QuizReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "updateNextQuestion": {
+    case "updateResponse": {
       let answer = action.payload.value;
       let nextQuestionId = state.nextQuestion?.answers.find(
         (a) => a.copy === answer
       )?.nextQuestion;
+      let ratingIncrease: RatingIncrease | undefined =
+        state.nextQuestion?.answers.find(
+          (a) => a.copy === answer
+        )?.ratingIncrease;
+      let shoes = state.shoes;
+      if (ratingIncrease) {
+        for (let shoe of shoes) {
+          console.log(shoe.rating + ratingIncrease[shoe.id]);
+          shoe.rating = shoe.rating + ratingIncrease[shoe.id];
+        }
+        shoes.sort((a, b) => {
+          return b.rating - a.rating;
+        });
+        console.log(shoes);
+      }
       if (typeof nextQuestionId === "number") {
         let nextQuestion = state.questions[nextQuestionId];
-        return { ...state, nextQuestion, step: state.step + 1 };
+        return { ...state, nextQuestion, step: state.step + 1, shoes };
       }
-      return { ...state, nextQuestion: null, step: state.step + 1 };
+      return { ...state, nextQuestion: null, step: state.step + 1, shoes };
     }
     default: {
       throw new Error(`Unhandled action type`);
@@ -38,9 +54,8 @@ const QuizProvider = ({ children }: QuizProviderProps) => {
     questions: data.questions,
     step: 0,
     nextQuestion: data.questions[0],
+    shoes: data.shoes,
   });
-  // NOTE: you *might* need to memoize this value
-  // Learn more in http://kcd.im/optimize-context
   const value = { state, dispatch };
   return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;
 };

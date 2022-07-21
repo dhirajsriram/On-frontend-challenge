@@ -7,6 +7,10 @@ export interface Answer {
   };
 }
 
+export interface RatingIncrease {
+  [key: string]: number;
+}
+
 export interface Question {
   id: number;
   copy: string;

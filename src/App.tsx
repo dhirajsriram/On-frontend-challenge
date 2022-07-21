@@ -2,7 +2,6 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import React, { Suspense } from "react";
 import AppRoutes from "./AppRoutes";
 import { QuizProvider } from "./context/quizContext";
-import { ShoesProvider } from "./context/shoesContext";
 import theme from "./theme/theme";
 
 function App() {
@@ -11,11 +10,9 @@ function App() {
       <Suspense fallback={<div>...loading</div>}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ShoesProvider>
-            <QuizProvider>
-              <AppRoutes />
-            </QuizProvider>
-          </ShoesProvider>
+          <QuizProvider>
+            <AppRoutes />
+          </QuizProvider>
         </ThemeProvider>
       </Suspense>
     </div>

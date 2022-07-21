@@ -1,6 +1,8 @@
 import { Grid, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { Container } from "@mui/system";
+import React from "react";
+import { useNavigate } from "react-router";
 import Button from "../components/Button";
 import { useQuiz } from "../context/quizContext";
 
@@ -9,9 +11,16 @@ const Quiz = () => {
     state: { nextQuestion },
     dispatch: dispatchQuiz,
   } = useQuiz();
+  const navigate = useNavigate();
   const handleOptionClick = (value: string) => {
-    dispatchQuiz({ type: "updateNextQuestion", payload: { value } });
+    dispatchQuiz({ type: "updateResponse", payload: { value } });
   };
+
+  React.useEffect(() => {
+    if (!nextQuestion) {
+      navigate("/results");
+    }
+  });
 
   return (
     <Container
