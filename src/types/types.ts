@@ -1,7 +1,7 @@
 export interface Answer {
-  id: number;
+  id?: number;
   copy: string;
-  nextQuestion: number;
+  nextQuestion: number | string;
   ratingIncrease: {
     [key: string]: number;
   };

@@ -2,12 +2,12 @@ import * as React from "react";
 import data from "../data/data.json";
 import { Question } from "../types/types";
 
-export type Action = { type: "updateNextQuestion" };
+export type Action = { type: "updateNextQuestion"; payload: { value: string } };
 type Dispatch = (action: Action) => void;
 export type State = {
   questions: Question[];
   step: number;
-  nextQuestion: Question;
+  nextQuestion: Question | null;
 };
 type QuizProviderProps = { children: React.ReactNode };
 const QuizContext = React.createContext<
@@ -17,7 +17,15 @@ const QuizContext = React.createContext<
 export const QuizReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "updateNextQuestion": {
-      return state;
+      let answer = action.payload.value;
+      let nextQuestionId = state.nextQuestion?.answers.find(
+        (a) => a.copy === answer
+      )?.nextQuestion;
+      if (typeof nextQuestionId === "number") {
+        let nextQuestion = state.questions[nextQuestionId];
+        return { ...state, nextQuestion, step: state.step + 1 };
+      }
+      return { ...state, nextQuestion: null, step: state.step + 1 };
     }
     default: {
       throw new Error(`Unhandled action type`);
@@ -31,6 +39,8 @@ const QuizProvider = ({ children }: QuizProviderProps) => {
     step: 0,
     nextQuestion: data.questions[0],
   });
+  // NOTE: you *might* need to memoize this value
+  // Learn more in http://kcd.im/optimize-context
   const value = { state, dispatch };
   return <QuizContext.Provider value={value}>{children}</QuizContext.Provider>;
 };

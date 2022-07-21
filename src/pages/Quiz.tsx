@@ -7,12 +7,23 @@ import { useQuiz } from "../context/quizContext";
 const Quiz = () => {
   const {
     state: { nextQuestion },
+    dispatch: dispatchQuiz,
   } = useQuiz();
-  const handleOptionClick = (id: number) => {};
+  const handleOptionClick = (value: string) => {
+    dispatchQuiz({ type: "updateNextQuestion", payload: { value } });
+  };
 
   return (
-    <Container sx={{ background: grey[800], minHeight: "100vh" }}>
-      <Grid container sx={{ paddingTop: "25%" }} spacing={1}>
+    <Container
+      sx={{
+        background: grey[800],
+        minHeight: "100vh",
+        padding: "16px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <Typography
             sx={{
@@ -40,18 +51,20 @@ const Quiz = () => {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container>
+      <Grid
+        container
+        sx={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      >
         <Grid
           item
           xs={12}
           sx={{
             color: "white",
             textAlign: "center",
-            fontSize: "20px",
-            marginTop: "25%",
+            fontSize: "22px",
           }}
         >
-          {nextQuestion.copy}
+          {nextQuestion?.copy}
         </Grid>
         <Grid
           item
@@ -60,15 +73,15 @@ const Quiz = () => {
             color: "white",
             textAlign: "center",
             fontSize: "20px",
-            marginTop: "25%",
+            marginTop: "100px",
           }}
         >
           <Grid container>
-            {nextQuestion.answers.map((answer) => (
+            {nextQuestion?.answers.map((answer) => (
               <Grid item xs={12 / nextQuestion.answers.length}>
                 <Button
                   variant="secondary"
-                  onClick={() => handleOptionClick(answer.id)}
+                  onClick={() => handleOptionClick(answer.copy)}
                   label={answer.copy}
                 ></Button>
               </Grid>
