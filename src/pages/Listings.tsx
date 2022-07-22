@@ -59,8 +59,6 @@ const Listings = () => {
           sx={{
             margin: "auto",
             display: "block",
-            marginTop: "32px",
-            marginBottom: "32px",
             borderColor: grey[900],
             color: grey[900],
           }}
