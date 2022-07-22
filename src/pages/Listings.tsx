@@ -26,13 +26,21 @@ const Listings = () => {
           your preferences.
         </Typography>
       </Grid>
+      {/* Sorted list of shoes */}
       {shoes.map((shoe) => {
         return (
           <Grid item xs={12} key={shoe.id}>
             <img
               src={require(`../assets/${shoe.name}.png`)}
               alt={shoe.name}
-              style={{ objectFit: "contain", width: "100%", padding: "16px" }}
+              style={{
+                objectFit: "contain",
+                width: "100%",
+                padding: "16px",
+                maxWidth: "300px",
+                display: "block",
+                margin: "auto",
+              }}
             ></img>
             <Typography
               sx={{

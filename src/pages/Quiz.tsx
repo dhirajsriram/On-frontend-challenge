@@ -76,7 +76,13 @@ const Quiz = () => {
               justifyContent: "space-between",
             }}
           >
-            <Grid item xs={12} sx={{ marginTop: "50%" }}>
+            <Grid
+              item
+              xs={12}
+              sx={(theme) => ({
+                marginTop: "200px",
+              })}
+            >
               <Typography
                 sx={{
                   color: "white",

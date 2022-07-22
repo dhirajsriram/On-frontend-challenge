@@ -1,46 +1,117 @@
-# Getting Started with Create React App
+# frontend-challenge-on
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Abstract
 
-## Available Scripts
+A React application which handles the user's response and renders the results of shoes depending on the ratings. The data.json file is used as the source of truth for the data
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+Kindly do an npm install at the root directory of the application to install the required packages. Following are the libraries that are used in front-end.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React
+- Material-UI
+- React Router
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+npm install
+```
 
-### `npm test`
+## Serving Locally
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Once the packages have been installed you may serve the application locally. You may run `npm start` on the root directory of the application to serve it locally. Following are the ports the application run on
 
-### `npm run build`
+- [http://localhost:3000](http://localhost:3000)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Scripts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+`npm run start` - Serves the app locally on [http://localhost:3000](http://localhost:3000)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm run build` - Builds a minified version of the frontend application. It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### `npm run eject`
+## Architecture
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The application is designed with a context based approach wherein the **data manipulations are offloaded to the context** and the rendering components are kept as minimal in terms of their implementation.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Description
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The application works on multiple pages, they are
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Home
+- Quiz
+- Listing
 
-## Learn More
+## Design
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Folder structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+The application was designed to be as granular as possible in terms of functionality. Separation of concerns was the goal while designing the project. The folder structure of the application is as follows
+
+`src/components` - Contains all the shared design- components such as Button etc
+
+`src/pages` - The different pages of the application are placed here. At present,
+the app runs on **Home** , **Quiz** and **Listing**
+
+`src/assets` - Images necessary for the application are present here.
+
+`src/theme` - Contains all the theme.ts file which provides the application's overall look and feel.
+
+`src/types` - Contains all the shared types on the application.
+
+### Application Design
+
+Every component in the application has access to the data from the context. The components are also able to dispatch events to the context to manipulate the data
+
+###### Context hook
+
+```javascript
+const {
+  state: { nextQuestion },
+  dispatch: dispatchQuiz,
+} = useQuiz();
+```
+
+###### Dispatch actions
+
+```javascript
+dispatchQuiz({ type: "updateResponse", payload: { value } });
+```
+
+All the manipulation logic is abstracted out from the rendering components
+
+###### Quiz context
+
+Quiz context has the relevant logic related to data manipulation
+
+```javascript
+// Update the response
+    // 1. Adds the nextQuestion in queue
+    // 2. Updates the rating values to the shoes
+    case "updateResponse": {
+      const answerCopy = action.payload.value;
+      let answer = state.nextQuestion?.answers.find(
+        (a) => a.copy === answerCopy
+      );
+      let nextQuestionId = answer?.nextQuestion;
+      let ratingIncrease: RatingIncrease | undefined = answer?.ratingIncrease;
+      // Creating a copy of the arrays so we dont make changes to the reference
+      let shoes = [...state.shoes];
+      if (ratingIncrease) {
+        for (let shoe of shoes) {
+          shoe.rating = shoe.rating + ratingIncrease[shoe.id];
+        }
+        // Sort desc by rating
+        shoes.sort((a, b) => {
+          return b.rating - a.rating;
+        });
+      }
+      if (typeof nextQuestionId === "number") {
+        let nextQuestion = state.questions[nextQuestionId];
+        return { ...state, nextQuestion, step: state.step + 1, shoes };
+      }
+      return { ...state, nextQuestion: null, step: state.step + 1, shoes };
+    }
+```
+
+### UX Design
+
+The application strongly uses components from the Material design.
