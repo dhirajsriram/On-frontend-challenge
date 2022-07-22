@@ -6,15 +6,17 @@ A React application which handles the user's response and renders the results of
 
 ## Installation
 
-Kindly do an npm install at the root directory of the application to install the required packages. Following are the libraries that are used in front-end.
-
-- React
-- Material-UI
-- React Router
+Kindly do an npm install at the root directory of the application to install the required packages.
 
 ```
 npm install
 ```
+
+Following are the libraries that are used in front-end.
+
+- React
+- Material-UI
+- React Router
 
 ## Serving Locally
 
