@@ -22,6 +22,10 @@ const Button = ({ variant, onClick, label, sx }: ButtonProps) => {
         textTransform: "capitalize",
         borderRadius: "0px",
         // Allows passing custom  styes to buttons
+        ":hover": {
+          backgroundColor: variant === "primary" ? grey[900] : "transparent",
+          color: "white",
+        },
         ...sx,
       }}
       onClick={onClick}

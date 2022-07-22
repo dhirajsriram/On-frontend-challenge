@@ -28,6 +28,8 @@ Once the packages have been installed you may serve the application locally. You
 
 `npm run start` - Serves the app locally on [http://localhost:3000](http://localhost:3000)
 
+`npm run test` - Runs the available unit tests
+
 `npm run build` - Builds a minified version of the frontend application. It correctly bundles React in production mode and optimizes the build for the best performance.
 
 ## Architecture
@@ -150,15 +152,6 @@ Quiz context has the relevant logic related to data manipulation
 ### UX Design
 
 The application strongly uses components from the Material design.
-
-## Things to improve
-
-- **Testing:** The application require unit test and e2e test coverege. The context needs to be tested with mock data
-
-  - Test to check if the ratings are increased aptly
-  - Test to check if the nextQuestion is selected appropriately
-
-- **Responsiveness:** Needs to be extended to fit the desktop viewports
 
 ## Comments
 

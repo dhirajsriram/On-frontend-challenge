@@ -21,6 +21,7 @@ const Quiz = () => {
   React.useEffect(() => {
     if (!nextQuestion) {
       setLoading(true);
+      // Voluntary timeout to mimic loading results
       setTimeout(() => {
         navigate("/results");
         setLoading(false);
@@ -80,7 +81,7 @@ const Quiz = () => {
               item
               xs={12}
               sx={(theme) => ({
-                marginTop: "200px",
+                marginTop: "30vh",
               })}
             >
               <Typography
@@ -133,15 +134,16 @@ const Quiz = () => {
           <Grid item xs={12}>
             <img
               src={Loader}
-              style={{ margin: "auto", display: "block" }}
+              style={{ margin: "auto", display: "block", maxWidth: "72px" }}
               alt="loading-spinner"
             />
             <Typography
               sx={{
-                color: grey[700],
+                color: grey[600],
                 marginTop: "16px",
                 textAlign: "center",
                 fontWeight: "bold",
+                fontSize: "24px",
               }}
             >
               We're running to get your results

@@ -70,6 +70,9 @@ const Listings = () => {
             display: "block",
             borderColor: grey[900],
             color: grey[900],
+            ":hover": {
+              color: grey[900],
+            },
           }}
           onClick={resetResponses}
         ></Button>
