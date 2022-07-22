@@ -2,7 +2,7 @@
 
 ## Abstract
 
-A React application which handles the user's response and renders the results of shoes depending on the ratings. The data.json file is used as the source of truth for the data
+A React application which handles the user's response and renders the results of shoes depending on the ratings. The **data.json** file is used as the source of truth for the data
 
 ## Installation
 
@@ -30,21 +30,52 @@ Once the packages have been installed you may serve the application locally. You
 
 ## Architecture
 
-The application is designed with a context based approach wherein the **data manipulations are offloaded to the context** and the rendering components are kept as minimal in terms of their implementation.
+### React Suspense
 
-## Description
+React suspense has been used to help us manage the loading state of our code-split application. Suspense suspends rendering and automatically displays the fallback which is the Loader component in our case until the components chunks are available in the dom.
 
-The application works on multiple pages, they are
+### React Router
 
-- Home
-- Quiz
-- Listing
+Routing is enabled through react-router. All the routes in the application are managed in a single file called **routes.ts** which could be found at [`src/routes.ts`](./src/routes.ts)
+
+### Functional Components
+
+The components in the application are stateless functional components. Hooks have been used if components need to maintain a state.
+
+### Typescript
+
+Typescript is preferred over the regular javascript due to the advantages such as
+
+- Great tooling support with IntelliSense
+- Optional static typing
+- Ahead-Of-Time type checking
+- Type Inference, which gives some of the benefits of types, without actually using them
 
 ## Design
 
 ### Folder structure
 
 The application was designed to be as granular as possible in terms of functionality. Separation of concerns was the goal while designing the project. The folder structure of the application is as follows
+
+```
+├── 📁public
+├── 📁node_modules
+├── 📄package.json
+├── 📄README.md
+└── 📁src
+    ├── 📁assets
+    ├── 📁components
+    ├── 📁pages
+    ├── 📁data
+    ├── 📁context
+    ├── 📁theme
+    ├── 📁types
+    ├── 📄App.tsx
+    ├── 📄App.test.tsx
+    ├── 📄index.tsx
+    ├── 📄logo.svg
+    └── 📄routes.ts
+```
 
 `src/components` - Contains all the shared design- components such as Button etc
 
@@ -54,6 +85,8 @@ the app runs on **Home** , **Quiz** and **Listing**
 `src/assets` - Images necessary for the application are present here.
 
 `src/theme` - Contains all the theme.ts file which provides the application's overall look and feel.
+
+`src/context` - Contains the context which is responsible for all the data manipulation
 
 `src/types` - Contains all the shared types on the application.
 
@@ -115,3 +148,19 @@ Quiz context has the relevant logic related to data manipulation
 ### UX Design
 
 The application strongly uses components from the Material design.
+
+## Things to improve
+
+- **Testing:** The application require unit test and e2e test coverege. The context needs to be tested with mock data
+
+  - Test to check if the ratings are increased aptly
+  - Test to check if the nextQuestion is selected appropriately
+
+- **Responsiveness:** Needs to be extended to fit the desktop viewports
+
+## Comments
+
+I noticed a coupe of anomalies in the data while working on the solution
+
+- Answers do not consistenly have an id and refering the answer by the copy is possible to cause issues when extended further in the future
+- I also noticed that question 2 and question 6 are very similar with different impact on the rating.
