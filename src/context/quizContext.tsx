@@ -21,24 +21,26 @@ const QuizContext = React.createContext<
 
 export const QuizReducer = (state: State, action: Action) => {
   switch (action.type) {
+    // Update the response
+    // 1. Adds the nextQuestion in queue
+    // 2. Updates the rating values to the shoes
     case "updateResponse": {
-      let answer = action.payload.value;
-      let nextQuestionId = state.nextQuestion?.answers.find(
-        (a) => a.copy === answer
-      )?.nextQuestion;
-      let ratingIncrease: RatingIncrease | undefined =
-        state.nextQuestion?.answers.find(
-          (a) => a.copy === answer
-        )?.ratingIncrease;
+      const answerCopy = action.payload.value;
+      let answer = state.nextQuestion?.answers.find(
+        (a) => a.copy === answerCopy
+      );
+      let nextQuestionId = answer?.nextQuestion;
+      let ratingIncrease: RatingIncrease | undefined = answer?.ratingIncrease;
+      // Creating a copy of the arrays so we dont make changes to the reference
       let shoes = [...state.shoes];
       if (ratingIncrease) {
         for (let shoe of shoes) {
           shoe.rating = shoe.rating + ratingIncrease[shoe.id];
         }
+        // Sort desc by rating
         shoes.sort((a, b) => {
           return b.rating - a.rating;
         });
-        console.log(dataObject.shoes);
       }
       if (typeof nextQuestionId === "number") {
         let nextQuestion = state.questions[nextQuestionId];
@@ -47,7 +49,8 @@ export const QuizReducer = (state: State, action: Action) => {
       return { ...state, nextQuestion: null, step: state.step + 1, shoes };
     }
     case "resetResponse": {
-      state.shoes.forEach((shoe) => shoe.rating = 0);
+      // Resets the respnse from with the value from data.json
+      state.shoes.forEach((shoe) => (shoe.rating = 0));
       return {
         ...state,
         questions: dataObject.questions,

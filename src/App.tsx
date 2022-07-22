@@ -1,5 +1,5 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import React, { Suspense } from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import AppRoutes from "./AppRoutes";
 import { QuizProvider } from "./context/quizContext";
 import theme from "./theme/theme";
