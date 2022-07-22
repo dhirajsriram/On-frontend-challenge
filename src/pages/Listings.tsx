@@ -22,7 +22,8 @@ const Listings = () => {
       <Grid item xs={12}>
         <Typography sx={{ fontSize: "24px" }}>Congratulations</Typography>
         <Typography sx={{ fontSize: "16px", color: grey[500] }}>
-          Based on your selection we have decided on
+          Based on your selection, he is the list of shoes sorted top-down by
+          your preferences.
         </Typography>
       </Grid>
       {shoes.map((shoe) => {
